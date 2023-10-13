@@ -1,0 +1,522 @@
+[
+    {
+        "anonymous": false,
+        "inputs": [
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        },
+        {
+            "indexed": false,
+            "internalType": "address",
+            "name": "approver",
+            "type": "address"
+        }
+        ],
+        "name": "AllocationApproved",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+        }
+        ],
+        "name": "AllocationFinalApproved",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        },
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "ngoName",
+            "type": "string"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        },
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "needyOrgName",
+            "type": "string"
+        },
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "status",
+            "type": "string"
+        }
+        ],
+        "name": "AllocationRequestRecorded",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        },
+        {
+            "indexed": false,
+            "internalType": "address",
+            "name": "srcAddress",
+            "type": "address"
+        },
+        {
+            "indexed": false,
+            "internalType": "address",
+            "name": "dstAddress",
+            "type": "address"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+        }
+        ],
+        "name": "AllocationTransferred",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "exchangeRate",
+            "type": "uint256"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+        },
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "exchangeTxnId",
+            "type": "string"
+        }
+        ],
+        "name": "ConversionRecorded",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+        {
+            "indexed": false,
+            "internalType": "address",
+            "name": "srcAddress",
+            "type": "address"
+        },
+        {
+            "indexed": false,
+            "internalType": "address",
+            "name": "dstAddress",
+            "type": "address"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+        },
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "digitalAssetToken",
+            "type": "string"
+        },
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        }
+        ],
+        "name": "DigitalAssetTransferRecorded",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+        {
+            "indexed": false,
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        },
+        {
+            "indexed": false,
+            "internalType": "address",
+            "name": "srcAddress",
+            "type": "address"
+        },
+        {
+            "indexed": false,
+            "internalType": "address",
+            "name": "dstAddress",
+            "type": "address"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        },
+        {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+        }
+        ],
+        "name": "DonationRecorded",
+        "type": "event"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }
+        ],
+        "name": "allocationRequests",
+        "outputs": [
+        {
+            "internalType": "string",
+            "name": "ngoName",
+            "type": "string"
+        },
+        {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        },
+        {
+            "internalType": "string",
+            "name": "needyOrgName",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "status",
+            "type": "string"
+        },
+        {
+            "internalType": "uint256",
+            "name": "approvalCount",
+            "type": "uint256"
+        },
+        {
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "ngoName",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "approverName",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        }
+        ],
+        "name": "approveAllocationRequest",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }
+        ],
+        "name": "digitalAssetTransfers",
+        "outputs": [
+        {
+            "internalType": "address",
+            "name": "srcAddress",
+            "type": "address"
+        },
+        {
+            "internalType": "address",
+            "name": "dstAddress",
+            "type": "address"
+        },
+        {
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+        },
+        {
+            "internalType": "string",
+            "name": "digitalAssetToken",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        },
+        {
+            "internalType": "string",
+            "name": "currency",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "ngoName",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        }
+        ],
+        "name": "donateMoney",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "address",
+            "name": "srcAddress",
+            "type": "address"
+        },
+        {
+            "internalType": "string",
+            "name": "ngoName",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "digitalAssetToken",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        }
+        ],
+        "name": "donateOtherDigitalAsset",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }
+        ],
+        "name": "donations",
+        "outputs": [
+        {
+            "internalType": "address",
+            "name": "srcAddress",
+            "type": "address"
+        },
+        {
+            "internalType": "address",
+            "name": "dstAddress",
+            "type": "address"
+        },
+        {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        },
+        {
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+        },
+        {
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }
+        ],
+        "name": "needyOrgAddresses",
+        "outputs": [
+        {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+        }
+        ],
+        "name": "ngoAddresses",
+        "outputs": [
+        {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+        }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "ngoName",
+            "type": "string"
+        },
+        {
+            "internalType": "address",
+            "name": "ngoAddress",
+            "type": "address"
+        }
+        ],
+        "name": "registerNGO",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "needyOrgName",
+            "type": "string"
+        },
+        {
+            "internalType": "address",
+            "name": "needyOrgAddress",
+            "type": "address"
+        }
+        ],
+        "name": "registerNeedyOrg",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+        {
+            "internalType": "string",
+            "name": "ngoName",
+            "type": "string"
+        },
+        {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+        },
+        {
+            "internalType": "string",
+            "name": "needyOrgName",
+            "type": "string"
+        },
+        {
+            "internalType": "string",
+            "name": "txnId",
+            "type": "string"
+        }
+        ],
+        "name": "requestAllocation",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]
