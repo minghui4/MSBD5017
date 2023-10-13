@@ -146,20 +146,9 @@ function Register() {
 export default function Account() {
     return (
         <div>
-            <Image
-            alt="background"
-            src={background}
-            placeholder="blur"
-            quality={100}
-            fill
-            sizes="100vw"
-            style={{
-            objectFit: 'cover',
-            }}
-            />
-            <Login />
+            {/* <Login />
             <hr />
-            <Register />
+            <Register /> */}
         </div>
     );
 }
