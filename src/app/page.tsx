@@ -55,6 +55,7 @@ export default function Home() {
     // only connect to the contract if the user has MetaMask installed
     if (typeof window === "undefined") return null;
     return new ethers.providers.Web3Provider((window as any).ethereum);
+    
   }, []);
 
   const handleFormSubmit = useCallback(async (event: React.FormEvent) => {
@@ -69,8 +70,8 @@ export default function Home() {
 
       // Pass the field values to your Smart Contract function here
       // smartContractMethod(ngoName, ngoAddress);
-      const donationContract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
-      const tx = await donationContract.registerNGO(NGOName,NGOAddress)
+      const MainContract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+      const tx = await MainContract.registerNgo(NGOName,NGOAddress)
       // wait for the transaction to be mined
       await tx.wait();
     } catch (e) {
@@ -93,29 +94,29 @@ export default function Home() {
           objectFit: 'cover',
         }}
       />
+      
       <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
         <div className="w-full p-6 bg-white rounded-md shadow-md lg:max-w-xl">
-        <h1 className="text-3xl font-bold text-center text-gray-700"> Connect to Wallet</h1>
-        {/* Connect to metamask button */}
+        <h1 className="text-3xl font-bold text-center text-gray-700"> Connect to Your Digital Wallet</h1> <br />
         <div>
-          <label className="text-gray-700">Address: </label>
-          {!address ? (
-            <button type="button" className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600" 
-              onClick={connectToTheMetaMask}>Get the Account</button>
-          ) : (
-            <span className="text-gray-700">{address}</span>
-          )}
+        {!address ? (
+            <button onClick={connectToTheMetaMask} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600" >
+              <span>Connect</span>  
+              </button>
+        ):(<span> Address: {address}</span>)}
         </div>
+        <br /> 
         <div>
-          <label className="text-gray-700" >Balance: </label>
-          {!balance ? (
-            <button type="button" className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600" 
-              onClick={connect}>Get the Balance</button>
-          ) : (
-          <span className="text-gray-700">{balance}</span>
-          )}
+        {!address ? (
+          <div></div>
+        ):(
+          <Link
+            href="/landing">
+            <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Let&apos;s Get Started!</button>
+          </Link>
+        )}
         </div>
-          <h1 className="text-3xl font-bold text-center text-gray-700">Registration</h1>
+          {/* <h1 className="text-3xl font-bold text-center text-gray-700">Registration</h1>
           <form className="mt-6" onSubmit={handleFormSubmit}>
               <div className="mb-4">
               <label
@@ -147,16 +148,9 @@ export default function Home() {
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
               </div>
-            <div className="mt-2">
-              <button 
-                  className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                  type="submit" disabled={!address}>
-                  Registration
-              </button>
-           </div>  
-          </form>
+          </form>  */}
         </div>
-      </div>   
+      </div> 
     </div>
   );
 
