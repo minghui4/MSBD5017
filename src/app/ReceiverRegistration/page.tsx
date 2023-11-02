@@ -140,7 +140,6 @@ const ReceiverRegistrationPage = () => {
                   Registration
               </button>
             </div>  
-
         </form> 
       </div>
     </div> 

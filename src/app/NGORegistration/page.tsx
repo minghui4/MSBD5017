@@ -17,31 +17,11 @@ const NGORegistrationPage = () => {
 
   const [NGOName, setNGOName] = useState<string>();
   const [NGOAddress, setNGOAddress] = useState<string>();
+  const [MangerName, setManagerName] = useState<string>();
+  const [ManagerAddress, setManagerAddress] = useState<string>();
+  const [ApproverName, setApproverName] = useState<string>();
+  const [ApproverAddress, setApproverAddress] = useState<string>();
 
-  // async function connect() {
-  //   const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-  //   const firstAccount = accounts[0];
-  //   // get balance
-  //   const balance = await (window as any).ethereum.request({
-  //     method: 'eth_getBalance',
-  //     params: [firstAccount, 'latest'],
-  //   });
-  //   setAccount(firstAccount);
-  //   setBalance(balance);
-  // }
-
-  // const connectToTheMetaMask = useCallback(async () => {
-  //   // check if the browser has MetaMask installed
-  //   if (!(window as any).ethereum) {
-  //     alert("Please install MetaMask first.");
-  //     return;
-  //   }
-  //   // get the user's account address
-  //   const accounts = await (window as any).ethereum.request({
-  //     method: "eth_requestAccounts",
-  //   });
-  //   setAddress(accounts[0]);
-  // }, []);
 
   const signer = useMemo(() => {
     if (!NGOAddress) return null;
@@ -73,11 +53,16 @@ const NGORegistrationPage = () => {
       const tx = await MainContract.registerNgo(NGOName,NGOAddress)
       // wait for the transaction to be mined
       await tx.wait();
+      const tx2 = await MainContract.registerManager(MangerName,ManagerAddress)
+      await tx2.wait();
+      const tx3 = await MainContract.registerApprover(ApproverName,ApproverAddress)
+      await tx3.wait();
+
     } catch (e) {
       // show any error using the alert box
       alert(`Error: ${e}`);
     }
-  }, [NGOName, NGOAddress, signer]);
+  }, [NGOName, NGOAddress, MangerName,ManagerAddress,ApproverName,ApproverAddress, signer]);
 
   return (
     
@@ -104,43 +89,102 @@ const NGORegistrationPage = () => {
         <h1 className="text-3xl font-bold text-center text-gray-700">NGO Registration</h1>
         <form className="mt-6" onSubmit={handleFormSubmit}>
             <div className="mb-4">
-            <label
-                htmlFor="NGOs Name"
-                className="block text-sm font-semibold text-gray-800"
-            >
-            NGO&apos;s Name
-            </label>
-            <input
-              type="text"
-              id="ngoName"
-              // value={}
-              onChange={(event) => setNGOName(event.target.value)}
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
+              <label
+                  htmlFor="NGOs Name"
+                  className="block text-sm font-semibold text-gray-800"
+              >
+              NGO&apos;s Name
+              </label>
+              <input
+                type="text"
+                id="ngoName"
+                // value={}
+                onChange={(event) => setNGOName(event.target.value)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+              </div>
+            <div className="mb-2">
+              <label
+                  htmlFor="password"
+                  className="block text-sm font-semibold text-gray-800"
+              >
+                  NGO&apos;s Address
+              </label>
+              <input
+                type="text"
+                id="ngoAddress"
+                // value={NGOAddress}
+                onChange={(event) => setNGOAddress(event.target.value)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                  htmlFor="Approver's Name"
+                  className="block text-sm font-semibold text-gray-800"
+              >
+              Manager&apos;s Name
+              </label>
+              <input
+                type="text"
+                id="ManagerName"
+                // value={}
+                onChange={(event) => setManagerName(event.target.value)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
             </div>
             <div className="mb-2">
-            <label
-                htmlFor="password"
-                className="block text-sm font-semibold text-gray-800"
-            >
-                NGO&apos;s Address
-            </label>
-            <input
-              type="text"
-              id="ngoAddress"
-              // value={NGOAddress}
-              onChange={(event) => setNGOAddress(event.target.value)}
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
+              <label
+                  htmlFor="Manager Address"
+                  className="block text-sm font-semibold text-gray-800"
+              >
+                  Manager&apos;s Address
+              </label>
+              <input
+                type="text"
+                id="ManagerAddress"
+                // value={ManagerAddress}
+                onChange={(event) => setManagerAddress(event.target.value)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                  htmlFor="Approver's Name"
+                  className="block text-sm font-semibold text-gray-800"
+              >
+              Approver&apos;s Name
+              </label>
+              <input
+                type="text"
+                id="ApproverName"
+                // value={}
+                onChange={(event) => setApproverName(event.target.value)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+            <div className="mb-2">
+              <label
+                  htmlFor="Approver Address"
+                  className="block text-sm font-semibold text-gray-800"
+              >
+                  Approver&apos;s Address
+              </label>
+              <input
+                type="text"
+                id="approverAddress"
+                // value={ApproverAddress}
+                onChange={(event) => setApproverAddress(event.target.value)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
             </div>
             <div className="mt-2">
               <button 
                   className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                  type="submit" disabled={!NGOAddress}>
+                  type="submit" disabled={!ApproverAddress}>
                   Registration
               </button>
             </div>  
-
         </form> 
       </div>
     </div> 
