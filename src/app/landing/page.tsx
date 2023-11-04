@@ -14,8 +14,6 @@ export const metadata: Metadata = {
 const LandingPage = () => {
   return (
     <main className={styles.main}>
-
-
     <div className={styles.grid}>
       <a
         href="/NGORegistration"
@@ -68,6 +66,19 @@ const LandingPage = () => {
         This is for registration as a new Buyer
         </p>
       </a>
+      <a
+        href="/CheckManagerPage"
+        className={styles.card}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <h2>
+         Manage Campagin <span>-&gt;</span>
+        </h2>
+        <p>This is for NGO to manage Campagin</p>
+      </a>
+    </div>
+    <div className={styles.grid}>
     </div>
   </main>
 
