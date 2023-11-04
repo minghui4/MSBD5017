@@ -71,51 +71,45 @@ const CheckMangaerPage = () => {
   };
 
   return (
-    
-    <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 bg-white rounded-md shadow-md lg:max-w-xl">
-      <div>
-      </div>
-        <h1 className="text-3xl font-bold text-center text-gray-700">Are you a Manager?</h1>
-        <form className="mt-6" onSubmit={handleFormSubmit}>
-            <div className="mb-4">
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 overflow-hidden">
+      <div className="w-full p-6 bg-white rounded-md shadow-lg lg:max-w-xl">
+        <h1 className="text-5xl font-semibold text-center text-gray-700 mb-8">Are you a Manager?</h1>
+        <form className="mt-6 space-y-4" onSubmit={handleFormSubmit}>
+          <div>
             <label
-                htmlFor="Manager's Name"
-                className="block text-sm font-semibold text-gray-800"
+              htmlFor="Manager's Name"
+              className="block text-lg font-semibold text-gray-800"
             >
-            Your Name
+              Your Name
             </label>
             <input
               type="text"
-              id="ManagerName"
-              // value={}
+              id="managerName"
               onChange={(event) => setManagerName(event.target.value)}
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
             />
-            </div>
-            <div className="mb-2">
+          </div>
+          <div>
             <label
-                htmlFor="Manager's Address"
-                className="block text-sm font-semibold text-gray-800"
+              htmlFor="Manager's Address"
+              className="block text-lg font-semibold text-gray-800"
             >
-                Your&apos; Address
+              Your Address
             </label>
             <input
               type="text"
-              id="ManagerAddress"
-              // value={ManagerAddress}
+              id="managerAddress"
               onChange={(event) => setManagerAddress(event.target.value)}
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-            </div>
-            <div className="mt-2">
-              <button 
-                  className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-                  type="submit">
-
-                  Proceed
-              </button>
-            </div>  
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
+            /> 
+          </div>
+          <div className="mt-2">
+            <button 
+              className="w-full px-4 py-2 text-lg tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
+              type="submit">
+              Proceed
+            </button>
+          </div>  
         </form> 
       </div>
     </div> 

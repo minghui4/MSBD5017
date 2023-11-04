@@ -2,86 +2,50 @@ import Link from "next/link";
 import Image from 'next/image'
 import styles from './page.module.css'
 
-
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
+export const metadata = {
   title: "Sign Up Page | Free Next.js Template for Startup and SaaS",
   description: "This is Sign Up Page for Startup Nextjs Template",
-  // other metadata
 };
 
 const LandingPage = () => {
   return (
-    <main className={styles.main}>
-    <div className={styles.grid}>
-      <a
-        href="/NGORegistration"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <h2>
-         NGO <span>-&gt;</span>
-        </h2>
-        <p>This is for registration as a new NGO</p>
+    <main className={`${styles.main} py-12 bg-gray-100`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="lg:text-center">
+          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Registration Portal</h2>
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">Select Your Role</p>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+            Please select the appropriate option based on your role to proceed with the registration.
+          </p>
+        </div>
+        <div className={`${styles.grid} mt-10`}>
+          <a href="/NGORegistration" className={styles.card} target="_blank" rel="noopener noreferrer">
+            <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">NGO</h2>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500">Register as a new NGO</p>
+          </a>
 
-      </a>
+          <a href="/DonerRegistration" className={styles.card} target="_blank" rel="noopener noreferrer">
+            <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">Donor</h2>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500">Register as a new Donor</p>
+          </a>
 
-      <a
-        href="/DonerRegistration"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <h2>
-        Doner  <span>-&gt;</span>
-        </h2>
-        <p>This is for registration as a new Doner.</p>
+          <a href="/ReceiverRegistration" className={styles.card} target="_blank" rel="noopener noreferrer">
+            <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">Receiver</h2>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500">Register as a new Receiver</p>
+          </a>
 
-      </a>
+          <a href="/BuyerRegistration" className={styles.card} target="_blank" rel="noopener noreferrer">
+            <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">Buyer</h2>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500">Register as a new Buyer</p>
+          </a>
 
-      <a
-        href="/ReceiverRegistration"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <h2>
-        Receiver <span>-&gt;</span>
-        </h2>
-        <p>This is for registration as a new Receiver.</p>
-      </a>
-
-      <a
-        href="/BuyerRegistration"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <h2>
-        Buyer <span>-&gt;</span>
-        </h2>
-        <p>
-        This is for registration as a new Buyer
-        </p>
-      </a>
-      <a
-        href="/CheckManagerPage"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <h2>
-         Manage Campagin <span>-&gt;</span>
-        </h2>
-        <p>This is for NGO to manage Campagin</p>
-      </a>
-    </div>
-    <div className={styles.grid}>
-    </div>
-  </main>
-
+          <a href="/CheckManagerPage" className={styles.card} target="_blank" rel="noopener noreferrer">
+            <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">Manage Campaign</h2>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500">Manage your NGO&apos;s Campaign</p>
+          </a>
+        </div>
+      </div>
+    </main>
   );
 };
 
