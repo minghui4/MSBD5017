@@ -98,25 +98,27 @@ const CampaginManagementPage = () => {
     }
   }, [ManagerAddress,EventName,Description,Deadline,TargetFundsRaised, signer]);
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden parent">
-      <div className="w-full p-6 bg-white rounded-md shadow-md lg:max-w-xl">
-        <button 
-            className=" px-4 py-2 tracking-wide text-white transition-colors transform bg-gray-700 rounded-md hover:bg-cyan-800 focus:outline-none focus:bg-cyan-800"
-            onClick={(event) => setCreateCampagin(true)}
-            >
-            Create New Campaign
-        </button>
-        <span> </span>
-        <button 
-            className=" px-4 py-2 tracking-wide text-white transition-colors transform bg-gray-700 rounded-md hover:bg-cyan-800 focus:outline-none focus:bg-cyan-800"
-            onClick={(event) => setCreateCampagin(false)}
-            >
-            
-            End Campaign
-        </button>
+    <div className={`relative flex flex-col items-center justify-center min-h-screen overflow-hidden ${styles.parent}`}>
+      <div className={`${styles.formContainer} w-full p-6 bg-white rounded-md shadow-lg lg:max-w-xl`}>
+        <div className="flex justify-between mb-4">
+          <button 
+              className="w-1/2 mr-2 py-2 tracking-wide text-white transition-colors transform bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700"
+              onClick={(event) => setCreateCampagin(true)}
+              >
+              Create New Campaign
+          </button>
+          <span> </span>
+          <button 
+              className="w-1/2 ml-2 py-2 tracking-wide text-white transition-colors transform bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:bg-red-700"
+              onClick={(event) => setCreateCampagin(false)}
+              >
+              
+              End Campaign
+          </button>
+        </div>
         {createCampagin==true ? (
           <div>
-            <h1 className="text-3xl font-bold text-center text-gray-700">Create a New Campagin</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">Create a New Campaign</h1>
             <form className="mt-6" onSubmit={createCampaginSubmit}>
               <div className="mb-4">
                 <label
@@ -205,7 +207,7 @@ const CampaginManagementPage = () => {
           </div>
         ):(
           <div className="w-full p-6 bg-white rounded-md shadow-md lg:max-w-xl">
-            <h1 className="text-3xl font-bold text-center text-gray-700">End a Campagin</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">End a Campaign</h1>
             <form className="mt-6" onSubmit={endCampaginSubmit}>
               <div className="mb-4">
                   <label
