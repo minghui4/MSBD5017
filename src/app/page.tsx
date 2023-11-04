@@ -82,7 +82,7 @@ export default function Home() {
 
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="relative h-screen flex items-center justify-center bg-cover bg-center" style={{padding: '20px'}}>
       <Image
         alt="background"
         src={background}
@@ -92,66 +92,39 @@ export default function Home() {
         sizes="100vw"
         style={{
           objectFit: 'cover',
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          zIndex: '-1',
         }}
       />
-      
-      <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
-        <div className="w-full p-6 bg-white rounded-md shadow-md lg:max-w-xl">
-        <h1 className="text-3xl font-bold text-center text-gray-700"> Connect to Your Digital Wallet</h1> <br />
-        <div>
-        {!address ? (
-            <button onClick={connectToTheMetaMask} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600" >
-              <span>Connect</span>  
-              </button>
-        ):(<span> Address: {address}</span>)}
+  
+      <div className="w-11/12 md:w-1/2 lg:w-1/3 p-8 bg-white rounded-lg shadow-md">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">Connect to Your Digital Wallet</h1>
+  
+        <div className="mb-4">
+          {!address ? (
+            <button 
+              onClick={connectToTheMetaMask} 
+              className="w-full px-4 py-2 font-medium tracking-wide text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200"
+            >
+              Connect
+            </button>
+          ) : (
+            <p className="text-center text-gray-700">Address: {address}</p>
+          )}
         </div>
-        <br /> 
-        <div>
-        {!address ? (
-          <div></div>
-        ):(
-          <Link
-            href="/landing">
-            <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Let&apos;s Get Started!</button>
+  
+        {address && (
+          <Link href="/landing">
+            <button 
+              className="w-full px-4 py-2 font-medium tracking-wide text-white bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400 focus:ring-opacity-50 transition-colors duration-200"
+            >
+              Let&apos;s Get Started!
+            </button>
           </Link>
         )}
-        </div>
-          {/* <h1 className="text-3xl font-bold text-center text-gray-700">Registration</h1>
-          <form className="mt-6" onSubmit={handleFormSubmit}>
-              <div className="mb-4">
-              <label
-                  htmlFor="NGOs Name"
-                  className="block text-sm font-semibold text-gray-800"
-              >
-              NGOs Name
-              </label>
-              <input
-                type="text"
-                id="ngoName"
-                // value={}
-                onChange={(event) => setNGOName(event.target.value)}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-              </div>
-              <div className="mb-2">
-              <label
-                  htmlFor="password"
-                  className="block text-sm font-semibold text-gray-800"
-              >
-                  NGOs Address
-              </label>
-              <input
-                type="text"
-                id="ngoAddress"
-                // value={NGOAddress}
-                onChange={(event) => setNGOAddress(event.target.value)}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-              </div>
-          </form>  */}
-        </div>
-      </div> 
+      </div>
     </div>
   );
-
 }

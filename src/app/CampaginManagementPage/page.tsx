@@ -213,7 +213,7 @@ return (
                 <input
                   type="text"
                   id="ContractAddress"
-                  onChange={(event) => setContractAddress(event.target.value)}
+                  onChange={(event) => setEventName(event.target.value)}
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
                 />
               </div> 
