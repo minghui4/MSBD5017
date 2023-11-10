@@ -22,7 +22,12 @@ const DonateCompletionPage = () => {
       try {
         // const response = await fetch(`/DonateCompletion/api/?chargeId=ch_3OArWHAiHbmBADrr0A4MJ7gc`);
 
-        const response = await fetch(`/DonateCompletion/api/`);
+        const response = await fetch(`/DonateCompletion/api/`, { 
+          headers: {
+            'Cache-Control': 'no-store'
+          }
+        });
+
         const data = await response.json();
 
         const chargeData: ChargeData = {
