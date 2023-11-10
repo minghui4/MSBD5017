@@ -8,10 +8,14 @@ const stripe = new Stripe('sk_test_51O0oMGAiHbmBADrr7k7NqefqK6P7qJPmASljpfvP86f4
 export async function GET(request, { params }) {
   console.log(params);
   try {
-    const url = new URL(request.url);
-    const searchParams = new URLSearchParams(url.search);
-    const chargeId = searchParams.get("chargeId"); 
-    const charge = await stripe.charges.retrieve(chargeId);
+    // const url = new URL(request.url);
+    // const searchParams = new URLSearchParams(url.search);
+    // const chargeId = searchParams.get("chargeId"); 
+    // const charge = await stripe.charges.retrieve(chargeId);
+    const charge = await stripe.charges.list({
+      limit: 1,
+    });
+    
     return NextResponse.json({ status: 200, message: charge });
   } catch (error) {
     return NextResponse.json({ status: 500, message: error.message });
