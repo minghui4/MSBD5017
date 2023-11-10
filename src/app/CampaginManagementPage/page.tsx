@@ -6,13 +6,9 @@ import { useCallback, useEffect, useMemo, useState} from "react";
 import abi from "../../abi.json";
 import { BigNumber, Bytes, ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "../../config";
-import dayjs from "dayjs"; 
-import Link from 'next/link'
-import Image from 'next/image'
-import background from '../../public/img/background1.jpeg'
-import styles from './page.module.css'
-import { useRouter } from 'next/router'
-
+import { push, ref, set } from "firebase/database";
+import { database } from "../firebaseConfig";
+import { useRouter } from 'next/navigation';
 
 const CampaginManagementPage = () => {
 
@@ -24,6 +20,7 @@ const CampaginManagementPage = () => {
   const [MangerName, setManagerName] = useState<string>();
   const [ManagerAddress, setManagerAddress] = useState<string>();
   const [createCampagin, setCreateCampagin] = useState<Boolean>(true);
+  const router = useRouter();
 
   // const router = useRouter();
   // const ManagerAddress = '0x2741cA6cdf158e127E84EE6fABBAED0b3356293a'
@@ -46,14 +43,11 @@ const CampaginManagementPage = () => {
 
   const createCampaginSubmit = useCallback(async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('Here!!!',signer);
-
-
     if (!signer) return;
     try {
-      console.log('I am insider!!!',signer);
+      const campaignsRef = ref(database, 'Campaigns');
+      const newDataRef = push(campaignsRef);
 
-      event.preventDefault();
       // Perform form submission logic or API call here
       console.log('ManagerAddress:', ManagerAddress);
       console.log('Event Name:', EventName);
@@ -67,14 +61,22 @@ const CampaginManagementPage = () => {
       const tx = await MainContract.startCampaign(ManagerAddress,EventName,Description,Deadline,TargetFundsRaised)
       // wait for the transaction to be mined
       await tx.wait();
-
+      set(newDataRef, { 
+        ManagerAddress: ManagerAddress,
+        EventName: EventName,
+        Description: Description,
+        Deadline: Deadline,
+        TargetFundsRaised: TargetFundsRaised
+      });
+      alert("Campaign Created Successfully");
+      router.push('/landing');
     } catch (e) {
       // show any error using the alert box
       alert(`Error: ${e}`);
     }
     console.log('Here!!!');
 
-  }, [ManagerAddress,EventName,Description,Deadline,TargetFundsRaised, signer]);
+  }, [ManagerAddress,EventName,Description,Deadline,TargetFundsRaised, signer, router]);
 
   const endCampaginSubmit = useCallback(async (event: React.FormEvent) => {
     event.preventDefault();
@@ -92,11 +94,12 @@ const CampaginManagementPage = () => {
       const tx = await MainContract.startCampaign(ManagerAddress,EventName,Description,Deadline,TargetFundsRaised)
       // wait for the transaction to be mined
       await tx.wait();
+      router.push('/landing');
     } catch (e) {
       // show any error using the alert box
       alert(`Error: ${e}`);
     }
-  }, [ManagerAddress,EventName,Description,Deadline,TargetFundsRaised, signer]);
+  }, [ManagerAddress,EventName,Description,Deadline,TargetFundsRaised, signer, router]);
 
 return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 overflow-hidden">

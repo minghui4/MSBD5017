@@ -6,42 +6,15 @@ import { useCallback, useEffect, useMemo, useState} from "react";
 import abi from "../../abi.json";
 import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "../../config";
-import dayjs from "dayjs"; 
-import Link from 'next/link'
-import Image from 'next/image'
-import background from '../../public/img/background1.jpeg'
-import styles from './page.module.css'
-
+import { push, ref, set } from "firebase/database";
+import { database } from "../firebaseConfig";
+import { useRouter } from 'next/navigation';
 
 const ReceiverRegistrationPage = () => {
 
   const [ReceiverName, setReceiverName] = useState<string>();
   const [ReceiverAddress, setReceiverAddress] = useState<string>();
-
-  // async function connect() {
-  //   const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-  //   const firstAccount = accounts[0];
-  //   // get balance
-  //   const balance = await (window as any).ethereum.request({
-  //     method: 'eth_getBalance',
-  //     params: [firstAccount, 'latest'],
-  //   });
-  //   setAccount(firstAccount);
-  //   setBalance(balance);
-  // }
-
-  // const connectToTheMetaMask = useCallback(async () => {
-  //   // check if the browser has MetaMask installed
-  //   if (!(window as any).ethereum) {
-  //     alert("Please install MetaMask first.");
-  //     return;
-  //   }
-  //   // get the user's account address
-  //   const accounts = await (window as any).ethereum.request({
-  //     method: "eth_requestAccounts",
-  //   });
-  //   setAddress(accounts[0]);
-  // }, []);
+  const router = useRouter();
 
   const signer = useMemo(() => {
     if (!ReceiverAddress) return null;
@@ -61,8 +34,9 @@ const ReceiverRegistrationPage = () => {
     event.preventDefault();
     if (!signer) return;
     try {
-
-      event.preventDefault();
+      const receiversRef = ref(database, 'Receivers');
+      const newDataRef = push(receiversRef);
+    
       // Perform form submission logic or API call here
       console.log('Receiver Name:', ReceiverName);
       console.log('Receiver Address:', ReceiverAddress);
@@ -73,11 +47,17 @@ const ReceiverRegistrationPage = () => {
       const tx = await MainContract.registerReceiver(ReceiverName,ReceiverAddress)
       // wait for the transaction to be mined
       await tx.wait();
+      set(newDataRef, { 
+        ReceiverName: ReceiverName,
+        ReceiverAddress: ReceiverAddress
+      });
+      alert("Receiver Registered Successfully");
+      router.push('/landing');
     } catch (e) {
       // show any error using the alert box
       alert(`Error: ${e}`);
     }
-  }, [ReceiverName, ReceiverAddress, signer]);
+  }, [ReceiverName, ReceiverAddress, signer, router]);
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 overflow-hidden">

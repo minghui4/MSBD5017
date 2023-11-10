@@ -6,12 +6,9 @@ import { useCallback, useEffect, useMemo, useState} from "react";
 import abi from "../../abi.json";
 import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "../../config";
-import dayjs from "dayjs"; 
-import Link from 'next/link'
-import Image from 'next/image'
-import background from '../../public/img/background1.jpeg'
-import styles from './page.module.css'
-
+import { push, ref, set } from "firebase/database";
+import { database } from "../firebaseConfig";
+import { useRouter } from 'next/navigation';
 
 const NGORegistrationPage = () => {
 
@@ -21,8 +18,7 @@ const NGORegistrationPage = () => {
   const [ManagerAddress, setManagerAddress] = useState<string>();
   const [ApproverName, setApproverName] = useState<string>();
   const [ApproverAddress, setApproverAddress] = useState<string>();
-
-
+  const router = useRouter();
   const signer = useMemo(() => {
     if (!NGOAddress) return null;
     return new ethers.providers.Web3Provider(
@@ -41,6 +37,8 @@ const NGORegistrationPage = () => {
     event.preventDefault();
     if (!signer) return;
     try {
+      const ngosRef = ref(database, 'NGOs');
+      const newDataRef = push(ngosRef);
 
       event.preventDefault();
       // Perform form submission logic or API call here
@@ -58,11 +56,21 @@ const NGORegistrationPage = () => {
       const tx3 = await MainContract.registerApprover(ApproverName,ApproverAddress)
       await tx3.wait();
 
+      set(newDataRef, { 
+        NGOName: NGOName,
+        NGOAddress: NGOAddress,
+        MangerName: MangerName,
+        ManagerAddress: ManagerAddress,
+        ApproverName: ApproverName,
+        ApproverAddress: ApproverAddress,
+      });
+      alert("NGO Registered Successfully");
+      router.push('/landing');
     } catch (e) {
       // show any error using the alert box
       alert(`Error: ${e}`);
     }
-  }, [NGOName, NGOAddress, MangerName,ManagerAddress,ApproverName,ApproverAddress, signer]);
+  }, [NGOName, NGOAddress, MangerName,ManagerAddress,ApproverName,ApproverAddress, signer, router]);
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 overflow-hidden">

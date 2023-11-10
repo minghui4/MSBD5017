@@ -5,37 +5,15 @@ import { useCallback, useEffect, useMemo, useState} from "react";
 import abi from "../../abi.json";
 import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "../../config";
-
+import { push, ref, set } from "firebase/database";
+import { database } from "../firebaseConfig";
+import { useRouter } from 'next/navigation';
 
 const DonerRegistrationPage = () => {
 
   const [DonerName, setDonerName] = useState<string>();
   const [DonerAddress, setDonerAddress] = useState<string>();
-
-  // async function connect() {
-  //   const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-  //   const firstAccount = accounts[0];
-  //   // get balance
-  //   const balance = await (window as any).ethereum.request({
-  //     method: 'eth_getBalance',
-  //     params: [firstAccount, 'latest'],
-  //   });
-  //   setAccount(firstAccount);
-  //   setBalance(balance);
-  // }
-
-  // const connectToTheMetaMask = useCallback(async () => {
-  //   // check if the browser has MetaMask installed
-  //   if (!(window as any).ethereum) {
-  //     alert("Please install MetaMask first.");
-  //     return;
-  //   }
-  //   // get the user's account address
-  //   const accounts = await (window as any).ethereum.request({
-  //     method: "eth_requestAccounts",
-  //   });
-  //   setAddress(accounts[0]);
-  // }, []);
+  const router = useRouter();
 
   const signer = useMemo(() => {
     if (!DonerAddress) return null;
@@ -55,8 +33,9 @@ const DonerRegistrationPage = () => {
     event.preventDefault();
     if (!signer) return;
     try {
+      const donersRef = ref(database, 'Doners');
+      const newDataRef = push(donersRef);
 
-      event.preventDefault();
       // Perform form submission logic or API call here
       console.log('Doner Name:', DonerName);
       console.log('Doner Address:', DonerAddress);
@@ -67,11 +46,17 @@ const DonerRegistrationPage = () => {
       const tx = await MainContract.registerDonor(DonerName,DonerAddress)
       // wait for the transaction to be mined
       await tx.wait();
+      set(newDataRef, { 
+        DonerName: DonerName,
+        DonerAddress: DonerAddress
+      });
+      alert("Doner Registered Successfully");
+      router.push('/landing');
     } catch (e) {
       // show any error using the alert box
       alert(`Error: ${e}`);
     }
-  }, [DonerName, DonerAddress, signer]);
+  }, [DonerName, DonerAddress, signer, router]);
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 overflow-hidden">

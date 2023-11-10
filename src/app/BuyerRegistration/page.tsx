@@ -5,36 +5,15 @@ import { useCallback, useEffect, useMemo, useState} from "react";
 import abi from "../../abi.json";
 import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "../../config";
+import { push, ref, set } from "firebase/database";
+import { database } from "../firebaseConfig";
+import { useRouter } from 'next/navigation';
 
 const BuyerRegistrationPage = () => {
 
   const [BuyerName, setBuyerName] = useState<string>();
   const [BuyerAddress, setBuyerAddress] = useState<string>();
-
-  // async function connect() {
-  //   const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-  //   const firstAccount = accounts[0];
-  //   // get balance
-  //   const balance = await (window as any).ethereum.request({
-  //     method: 'eth_getBalance',
-  //     params: [firstAccount, 'latest'],
-  //   });
-  //   setAccount(firstAccount);
-  //   setBalance(balance);
-  // }
-
-  // const connectToTheMetaMask = useCallback(async () => {
-  //   // check if the browser has MetaMask installed
-  //   if (!(window as any).ethereum) {
-  //     alert("Please install MetaMask first.");
-  //     return;
-  //   }
-  //   // get the user's account address
-  //   const accounts = await (window as any).ethereum.request({
-  //     method: "eth_requestAccounts",
-  //   });
-  //   setAddress(accounts[0]);
-  // }, []);
+  const router = useRouter();
 
   const signer = useMemo(() => {
     if (!BuyerAddress) return null;
@@ -54,8 +33,9 @@ const BuyerRegistrationPage = () => {
     event.preventDefault();
     if (!signer) return;
     try {
+      const buyersRef = ref(database, 'Buyers');
+      const newDataRef = push(buyersRef);
 
-      event.preventDefault();
       // Perform form submission logic or API call here
       console.log('Buyer Name:', BuyerName);
       console.log('BuyerAddress:', BuyerAddress);
@@ -66,11 +46,17 @@ const BuyerRegistrationPage = () => {
       const tx = await MainContract.registerBuyer(BuyerName,BuyerAddress)
       // wait for the transaction to be mined
       await tx.wait();
+      set(newDataRef, { 
+        BuyerName: BuyerName,
+        BuyerAddress: BuyerAddress
+      });
+      alert("Buyer Registered Successfully");
+      router.push('/landing');
     } catch (e) {
       // show any error using the alert box
       alert(`Error: ${e}`);
     }
-  }, [BuyerName, BuyerAddress, signer]);
+  }, [BuyerName, BuyerAddress, signer, router]);
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 overflow-hidden">

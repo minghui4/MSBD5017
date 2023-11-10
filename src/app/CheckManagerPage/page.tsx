@@ -6,42 +6,12 @@ import { useCallback, useEffect, useMemo, useState} from "react";
 import abi from "../../abi.json";
 import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "../../config";
-import dayjs from "dayjs"; 
-import Link from 'next/link'
-import Image from 'next/image'
-import background from '../../public/img/background1.jpeg'
-import styles from './page.module.css'
 import {useRouter} from 'next/navigation'
 
 const CheckMangaerPage = () => {
 
   const [ManagerName, setManagerName] = useState<string>();
   const [ManagerAddress, setManagerAddress] = useState<string>();
-
-  // async function connect() {
-  //   const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
-  //   const firstAccount = accounts[0];
-  //   // get balance
-  //   const balance = await (window as any).ethereum.request({
-  //     method: 'eth_getBalance',
-  //     params: [firstAccount, 'latest'],
-  //   });
-  //   setAccount(firstAccount);
-  //   setBalance(balance);
-  // }
-
-  // const connectToTheMetaMask = useCallback(async () => {
-  //   // check if the browser has MetaMask installed
-  //   if (!(window as any).ethereum) {
-  //     alert("Please install MetaMask first.");
-  //     return;
-  //   }
-  //   // get the user's account address
-  //   const accounts = await (window as any).ethereum.request({
-  //     method: "eth_requestAccounts",
-  //   });
-  //   setAddress(accounts[0]);
-  // }, []);
 
   const router = useRouter()
   const [query, setQuery] = useState('')
@@ -63,11 +33,7 @@ const CheckMangaerPage = () => {
   const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const data = {ManagerAddress};
-    router.push('/CampaginManagementPage')
-    // if (ManagerAddress) {
-    //   router.push(`/CampaignManagerPage?ManagerAddress=${ManagerAddress}`);
-    // }
-    
+    router.push('/CampaginManagementPage')    
   };
 
   return (

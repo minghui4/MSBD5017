@@ -2,10 +2,10 @@
 import Head from "next/head"
 import Image from "next/image"
 
-import { checkout } from "../../checkout"
+import { checkout } from "./api/checkout"
 
-export default function Home() {
-  return (
+const DonationPage = () => {
+    return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
         <div className="w-full p-6 bg-white rounded-md shadow-md lg:max-w-xl">
             <main >
@@ -27,5 +27,7 @@ export default function Home() {
             </main>
         </div>
     </div>
-  )
-}
+  );
+};
+
+export default DonationPage;
