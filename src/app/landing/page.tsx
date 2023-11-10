@@ -44,7 +44,7 @@ const LandingPage = () => {
             <p className="mt-4 max-w-2xl text-xl text-gray-500">Manage your NGO&apos;s Campaign</p>
           </a>
 
-          <a href="/Donation" className={styles.card} target="_blank" rel="noopener noreferrer">
+          <a href="/donation" className={styles.card} target="_blank" rel="noopener noreferrer">
             <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">Donation</h2>
             <p className="mt-4 max-w-2xl text-xl text-gray-500">Make donation to a campaign of NGO</p>
           </a>
