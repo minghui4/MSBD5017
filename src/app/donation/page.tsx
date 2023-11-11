@@ -16,7 +16,6 @@ interface Campaign {
   Description: string;
   Deadline: string;
   TargetFundsRaised: number;
-//   NGOName?: string;
 }
 
 interface CombinedData extends Campaign {

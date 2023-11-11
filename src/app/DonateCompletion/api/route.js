@@ -15,7 +15,7 @@ export async function GET(request, { params }) {
     const charge = await stripe.charges.list({
       limit: 1,
     });
-    
+    console.log(charge);
     return NextResponse.json({ status: 200, message: charge });
   } catch (error) {
     return NextResponse.json({ status: 500, message: error.message });
