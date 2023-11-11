@@ -21,7 +21,6 @@ const DonateCompletionPage = () => {
     const fetchData = async () => {
       try {
         // const response = await fetch(`/DonateCompletion/api/?chargeId=ch_3OArWHAiHbmBADrr0A4MJ7gc`);
-
         const response = await fetch(`/DonateCompletion/api/`, { 
           headers: {
             'Cache-Control': 'no-store'
