@@ -7,6 +7,8 @@ const { default: Stripe } = require('stripe');
 
 const stripe = new Stripe('sk_test_51O0oMGAiHbmBADrr7k7NqefqK6P7qJPmASljpfvP86f4OOAP3p8uBcWuqcgZBEG4DsY9Klg6Z7LohTKc6pA3WEqe00Q3iqG0YQ');
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 export async function GET(request, { params }) {
   console.log(params);
   try {
