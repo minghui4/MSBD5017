@@ -69,8 +69,8 @@ interface CombinedData extends Campaign {
         checkout({
             lineItems: [
                 {
-                    price: "price_1O0oPIAiHbmBADrrzlQa2gcF",
-                    quantity: amount / 5 // Assuming price_1O0oPIAiHbmBADrrzlQa2gcF is $5
+                    price: "price_1OCZCQAiHbmBADrrscWCBmdH",
+                    quantity: amount / 1 // Assuming price_1OCZCQAiHbmBADrrscWCBmdH is $1
                 }
             ]
         });
