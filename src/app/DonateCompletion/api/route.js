@@ -15,7 +15,7 @@ export async function GET(request, { params }) {
     });
     console.log(charge);
     const response = NextResponse.json({ status: 200, message: charge });
-    response.headers.set("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.headers.set("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
     return response;
 
     // return NextResponse.json({ status: 200, message: charge });
