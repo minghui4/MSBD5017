@@ -12,10 +12,10 @@ const LandingPage = () => {
     <main className={`${styles.main} py-12 bg-gray-100`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
-          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Registration Portal</h2>
-          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">Select Your Role</p>
+          <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Donation Portal</h2>
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">Select Functions</p>
           <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-            Please select the appropriate option based on your role to proceed with the registration.
+            Please select the appropriate option based on your role to proceed.
           </p>
         </div>
         <div className={`${styles.grid} mt-10`}>
@@ -47,6 +47,16 @@ const LandingPage = () => {
           <a href="/donation" className={styles.card} target="_blank" rel="noopener noreferrer">
             <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">Donation</h2>
             <p className="mt-4 max-w-2xl text-xl text-gray-500">Make donation to a campaign of NGO</p>
+          </a>
+
+          <a href="/TraceDonation" className={styles.card} target="_blank" rel="noopener noreferrer">
+            <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">Trace Donation</h2>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500">Trace your donation records</p>
+          </a>
+
+          <a href="/Allocation" className={styles.card} target="_blank" rel="noopener noreferrer">
+            <h2 className="mt-2 text-2xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-2xl">Donation Allocation</h2>
+            <p className="mt-4 max-w-2xl text-xl text-gray-500">Allocate the donation to needy</p>
           </a>
         </div>
       </div>

@@ -14,10 +14,13 @@ const NGORegistrationPage = () => {
 
   const [NGOName, setNGOName] = useState<string>();
   const [NGOAddress, setNGOAddress] = useState<string>();
-  const [MangerName, setManagerName] = useState<string>();
+  const [ManagerName, setManagerName] = useState<string>();
   const [ManagerAddress, setManagerAddress] = useState<string>();
-  const [ApproverName, setApproverName] = useState<string>();
-  const [ApproverAddress, setApproverAddress] = useState<string>();
+  const [FirstApproverName, setFirstApproverName] = useState<string>();
+  const [FirstApproverAddress, setFirstApproverAddress] = useState<string>();
+  const [SecondApproverName, setSecondApproverName] = useState<string>();
+  const [SecondApproverAddress, setSecondApproverAddress] = useState<string>();
+
   const router = useRouter();
   const signer = useMemo(() => {
     if (!NGOAddress) return null;
@@ -51,18 +54,22 @@ const NGORegistrationPage = () => {
       const tx = await MainContract.registerNgo(NGOName,NGOAddress)
       // wait for the transaction to be mined
       await tx.wait();
-      const tx2 = await MainContract.registerManager(MangerName,ManagerAddress)
+      const tx2 = await MainContract.registerManager(ManagerName,ManagerAddress)
       await tx2.wait();
-      const tx3 = await MainContract.registerApprover(ApproverName,ApproverAddress)
+      const tx3 = await MainContract.registerApprover(FirstApproverName,FirstApproverAddress)
       await tx3.wait();
+      const tx4 = await MainContract.registerApprover(SecondApproverName,SecondApproverAddress)
+      await tx4.wait();
 
       set(newDataRef, { 
         NGOName: NGOName,
         NGOAddress: NGOAddress,
-        MangerName: MangerName,
+        ManagerName: ManagerName,
         ManagerAddress: ManagerAddress,
-        ApproverName: ApproverName,
-        ApproverAddress: ApproverAddress,
+        FirstApproverName: FirstApproverName,
+        FirstApproverAddress: FirstApproverAddress,
+        SecondApproverName: SecondApproverName,
+        SecondApproverAddress: SecondApproverAddress,
       });
       alert("NGO Registered Successfully");
       router.push('/landing');
@@ -70,7 +77,7 @@ const NGORegistrationPage = () => {
       // show any error using the alert box
       alert(`Error: ${e}`);
     }
-  }, [NGOName, NGOAddress, MangerName,ManagerAddress,ApproverName,ApproverAddress, signer, router]);
+  }, [NGOName, NGOAddress, ManagerName,ManagerAddress,FirstApproverName,FirstApproverAddress, SecondApproverName, SecondApproverAddress, signer, router]);
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 overflow-hidden">
@@ -135,36 +142,65 @@ const NGORegistrationPage = () => {
             </div>
             <div>
             <label
-                htmlFor="ApproverName"
+                htmlFor="FirstApproverName"
                 className="block text-lg font-semibold text-gray-800"
             >
                 Approver&apos;s Name
             </label>
             <input
               type="text"
-              id="ApproverName"
-              onChange={(event) => setApproverName(event.target.value)}
+              id="FirstApproverName"
+              onChange={(event) => setFirstApproverName(event.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
             />
             </div>
             <div>
             <label
-                htmlFor="approverAddress"
+                htmlFor="FirstApproverAddress"
                 className="block text-lg font-semibold text-gray-800"
             >
-                Approver&apos;s Address
+                First Approver&apos;s Address
             </label>
             <input
               type="text"
-              id="approverAddress"
-              onChange={(event) => setApproverAddress(event.target.value)}
+              id="FirstApproverAddress"
+              onChange={(event) => setFirstApproverAddress(event.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
             />
             </div>
+            <div>
+            <label
+                htmlFor="SecondApproverName"
+                className="block text-lg font-semibold text-gray-800"
+            >
+                Approver&apos;s Name
+            </label>
+            <input
+              type="text"
+              id="SecondtApproverName"
+              onChange={(event) => setSecondApproverName(event.target.value)}
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
+            />
+            </div>
+            <div>
+            <label
+                htmlFor="SecondApproverAddress"
+                className="block text-lg font-semibold text-gray-800"
+            >
+                Second Approver&apos;s Address
+            </label>
+            <input
+              type="text"
+              id="SecondApproverAddress"
+              onChange={(event) => setSecondApproverAddress(event.target.value)}
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
+            />
+            </div>
+
             <div className="mt-2">
               <button 
                   className="w-full px-4 py-2 text-lg tracking-wide text-white transition-colors duration-200 transform bg-indigo-700 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-                  type="submit" disabled={!ApproverAddress}>
+                  type="submit" disabled={!FirstApproverAddress}>
                   Register
               </button>
             </div>  

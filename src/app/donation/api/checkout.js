@@ -1,6 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 
-export async function checkout({lineItems}){
+export async function checkout({lineItems, Campaign}){
 	let stripePromise = null
 
 	const getStripe = () => {
@@ -16,8 +16,10 @@ export async function checkout({lineItems}){
 	await stripe.redirectToCheckout({
 		mode: 'payment',
 		lineItems,
-		successUrl: `${window.location.origin}/DonateCompletion?session_id={CHECKOUT_SESSION_ID}`,
-		cancelUrl: window.location.origin
+		// successUrl: `${window.location.origin}/DonateCompletion?session_id={CHECKOUT_SESSION_ID}`,
+		// successUrl: `${window.location.origin}/DonateCompletion?session_id={CHECKOUT_SESSION_ID}&campaign_address=${Campaign.Campaign_ID}`,
+		successUrl: `${window.location.origin}/DonateCompletion?session_id={CHECKOUT_SESSION_ID}&campaign_address=123`,
+		cancelUrl: window.location.origin,
 	})
 }
 

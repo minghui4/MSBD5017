@@ -7,14 +7,15 @@ import abi from "../../abi.json";
 import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "../../config";
 import {useRouter} from 'next/navigation'
+import { database } from "../firebaseConfig";
+import { push, ref, set, get, query, orderByChild, equalTo } from "firebase/database";
 
 const CheckMangaerPage = () => {
 
   const [ManagerName, setManagerName] = useState<string>();
   const [ManagerAddress, setManagerAddress] = useState<string>();
 
-  const router = useRouter()
-  const [query, setQuery] = useState('')
+  const router = useRouter();
 
   const signer = useMemo(() => {
     if (!ManagerAddress) return null;
@@ -30,10 +31,45 @@ const CheckMangaerPage = () => {
     
   }, []);
 
+  const checkManagerExists = async (managerName: string | null, managerAddress: any) => {
+    const managerQuery = query(ref(database, 'NGOs'), 
+      orderByChild('ManagerName'), 
+      equalTo(managerName)
+    );
+    const snapshot = await get(managerQuery);
+    console.log(snapshot.val());
+
+    if (snapshot.exists()) {
+      const managerData = snapshot.val();
+      // Check if the managerAddress matches
+      console.log(managerData);
+      for (let id in managerData) {
+        console.log(managerData[id].managerAddress);
+        console.log(managerAddress);
+        if (managerData[id].ManagerAddress === managerAddress) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const data = {ManagerAddress};
-    router.push('/CampaginManagementPage')    
+    if (!signer) return;
+    try {
+      console.log('Manager Name:', ManagerName);
+      console.log('Manager Address:', ManagerAddress);  
+      const managerExists = await checkManagerExists(ManagerName || null, ManagerAddress || null);
+      if (managerExists) {
+        router.push('/CampaginManagementPage');
+      } else {
+        throw new Error("Manager does not exist");
+      }
+    } catch (e) {
+      // show any error using the alert box
+      alert(`Error: ${e}`);
+    }
   };
 
   return (

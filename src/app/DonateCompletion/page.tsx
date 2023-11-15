@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from 'next/link'
+import { set, ref, push } from "firebase/database";
+import { database } from "../firebaseConfig";
+import { useSearchParams } from 'next/navigation'; 
 
 interface ChargeData {
   id: string;
@@ -10,17 +13,20 @@ interface ChargeData {
   currency: string;
   DonerName: string;
   DonerEmail: string;
-  DonerPhone: string;
+  // DonerPhone: string;
 }
 
 const DonateCompletionPage = () => {
   const [charge, setCharge] = useState<ChargeData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const donationsRef = ref(database, 'donations');
+  const newDataRef = push(donationsRef);
+  const searchParams = useSearchParams()
+  const campaignAddress = searchParams.get('campaign_address')
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await fetch(`/DonateCompletion/api/?chargeId=ch_3OArWHAiHbmBADrr0A4MJ7gc`);
         const response = await fetch(`/DonateCompletion/api/`, { 
           headers: {
             'Cache-Control': 'no-store'
@@ -36,17 +42,26 @@ const DonateCompletionPage = () => {
           currency: data.message.data[0].currency,
           DonerName: data.message.data[0].billing_details.name,
           DonerEmail: data.message.data[0].billing_details.email,
-          DonerPhone: data.message.data[0].billing_details.phone
         };
-
         setCharge(chargeData);
+
+        set(newDataRef, { 
+          Txn: data.message.data[0].id,
+          Amount: data.message.data[0].amount / 100,
+          Status: data.message.data[0].status,
+          Currency: data.message.data[0].currency,
+          DonerName: data.message.data[0].billing_details.name,
+          DonerEmail: data.message.data[0].billing_details.email,
+          CampaignAddress: campaignAddress, // <-- add campaignAddress to database
+        });
+
       } catch (error: any) {
         setError(error.message);
       }
     };
   
     fetchData();
-  }, []);
+  }, [newDataRef, campaignAddress]);
   
   if (error) {
     return (
@@ -75,7 +90,10 @@ const DonateCompletionPage = () => {
             <p className="text-gray-700">Transaction ID:</p>
             <p className="text-gray-700">{charge.id}</p>
           </div>
-
+          <div className="flex justify-between">
+            <p className="text-gray-700">Campaign Address:</p>
+            <p className="text-gray-700">{campaignAddress}</p>
+          </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Amount:</p>
             <p className="text-gray-700">${charge.amount}</p>
@@ -95,10 +113,6 @@ const DonateCompletionPage = () => {
           <div className="flex justify-between">
             <p className="text-gray-700">Donor Email:</p>
             <p className="text-gray-700">{charge.DonerEmail}</p>
-          </div>
-          <div className="flex justify-between">
-            <p className="text-gray-700">Donor Phone:</p>
-            <p className="text-gray-700">{charge.DonerPhone}</p>
           </div>
         </div>
 
