@@ -131,9 +131,8 @@ const DonationAllocationPage = () => {
         })
           .then(() => {
             alert('Allocation successful');
-            // fetchData(); // Fetch the data again after the allocation
+            fetchData(); // Fetch the data again after the allocation
             router.push('/Allocation');
-
           })
           .catch((error) => {
             alert(`Error: ${error}`);
