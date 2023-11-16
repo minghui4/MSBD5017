@@ -1,6 +1,6 @@
 "use client"; 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import Link from 'next/link'
 import { set, ref, push } from "firebase/database";
 import { database } from "../firebaseConfig";
@@ -13,16 +13,19 @@ interface ChargeData {
   currency: string;
   DonerName: string;
   DonerEmail: string;
-  // DonerPhone: string;
+  Created: string;
 }
 
 const DonateCompletionPage = () => {
+  console.log('DonateCompletionPage rendered');
   const [charge, setCharge] = useState<ChargeData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const donationsRef = ref(database, 'donations');
   const newDataRef = push(donationsRef);
   const searchParams = useSearchParams()
   const campaignAddress = searchParams.get('campaign_address')
+  const isWrittenRef = useRef(false);
+  // console.log('useEffect ran, campaignAddress is', campaignAddress);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,26 +45,36 @@ const DonateCompletionPage = () => {
           currency: data.message.data[0].currency,
           DonerName: data.message.data[0].billing_details.name,
           DonerEmail: data.message.data[0].billing_details.email,
+          Created: data.message.data[0].created,
         };
         setCharge(chargeData);
 
-        set(newDataRef, { 
-          Txn: data.message.data[0].id,
-          Amount: data.message.data[0].amount / 100,
-          Status: data.message.data[0].status,
-          Currency: data.message.data[0].currency,
-          DonerName: data.message.data[0].billing_details.name,
-          DonerEmail: data.message.data[0].billing_details.email,
-          CampaignAddress: campaignAddress, // <-- add campaignAddress to database
-        });
+        console.log('useEffect ran, campaignAddress is', campaignAddress);
 
+        const newDataRef = push(donationsRef); // Moved inside useEffect and fetchData
+        if (!isWrittenRef.current) {
+          const newDataRef = push(donationsRef);
+          // const timestamp = new Date(data.message.data[0].created * 1000).toLocaleDateString();
+          set(newDataRef, { 
+            Txn: data.message.data[0].id,
+            Amount: data.message.data[0].amount / 100,
+            Status: data.message.data[0].status,
+            Currency: data.message.data[0].currency,
+            DonerName: data.message.data[0].billing_details.name,
+            DonerEmail: data.message.data[0].billing_details.email,
+            CampaignAddress: campaignAddress,
+            Timestamp: data.message.data[0].created,
+          });
+
+          isWrittenRef.current = true;
+        }
       } catch (error: any) {
         setError(error.message);
       }
     };
   
     fetchData();
-  }, [newDataRef, campaignAddress]);
+  }, [campaignAddress]);
   
   if (error) {
     return (
@@ -114,6 +127,11 @@ const DonateCompletionPage = () => {
             <p className="text-gray-700">Donor Email:</p>
             <p className="text-gray-700">{charge.DonerEmail}</p>
           </div>
+          <div className="flex justify-between">
+            <p className="text-gray-700">Timestamp:</p>
+            <p className="text-gray-700">{charge.Created}</p>
+          </div>
+
         </div>
 
         <div className="mt-6">

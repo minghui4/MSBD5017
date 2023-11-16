@@ -1,20 +1,29 @@
 "use client"; 
 
 import { useState, useEffect } from 'react';
-import { orderByChild, ref, get, query, equalTo } from 'firebase/database';
+import { orderByChild, ref, get, query, equalTo, limitToLast } from 'firebase/database';
 import { database } from "../firebaseConfig";
 
 // import { useRouter } from 'next/router'; // If the useRouter from 'next/navigation' is used in the new version, please change it accordingly.
 
 interface DonationData {
+  Timestamp: string;
   Txn: string;
   Amount: number;
+  allocatedAmount: number;
+  allocatedTo: Receiver;
   CampaignAddress: string;
   Currency: string;
   DonerEmail: string;
   DonerName: string;
   Status: string;
 }
+
+interface Receiver {
+  ReceiverName: string;
+  ReceiverAddress: string;
+}
+
 
 const TraceDonationPage = () => {
   const [txnId, setTxnId] = useState('');
@@ -26,18 +35,18 @@ const TraceDonationPage = () => {
     setLoading(true);
     try {
       const donationsRef = ref(database, 'donations');
-      const q = query(donationsRef, orderByChild('Txn'), equalTo(txnId));
+      const q = query(donationsRef, orderByChild('Timestamp'), limitToLast(1)); // Order by timestamp and limit to the last 1 record
       const snapshot = await get(q); 
-
+  
       if (snapshot.exists()) {
-        const donationDataArray = Object.values(snapshot.val());
+        const donationDataArray = Object.values(snapshot.val()) as DonationData[];
         if (donationDataArray.length > 0) {
-          setDonationData(donationDataArray[0] as DonationData);
+          setDonationData(donationDataArray[0]); // Set the latest donation
         } else {
-          setError('No donation found with the provided transaction ID');
+          setError('No donations found');
         }
       } else {
-        setError('No donation found with the provided transaction ID');
+        setError('No donations found');
       }
     } catch (err: any) {
       setError(err.message);
@@ -45,7 +54,7 @@ const TraceDonationPage = () => {
       setLoading(false);
     }
   }
-
+  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDonationData(null);
@@ -95,13 +104,15 @@ const TraceDonationPage = () => {
           <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">Donation Details</h2>
           <p className="text-lg text-gray-800"><span className="font-bold">Transaction ID:</span> {donationData.Txn}</p>
           <p className="text-lg text-gray-800"><span className="font-bold">Amount:</span> {donationData.Amount}</p>
+          <p className="text-lg text-gray-800"><span className="font-bold">Allocated Amount:</span> {donationData.allocatedAmount}</p>
+          <p className="text-lg text-gray-800"><span className="font-bold">Allocated To:</span> {donationData.allocatedTo && donationData.allocatedTo.ReceiverName}</p>
           <p className="text-lg text-gray-800"><span className="font-bold">Campaign Address:</span> {donationData.CampaignAddress}</p>
           <p className="text-lg text-gray-800"><span className="font-bold">Currency:</span> {donationData.Currency}</p>
           <p className="text-lg text-gray-800"><span className="font-bold">Donor Name:</span> {donationData.DonerName}</p>
           <p className="text-lg text-gray-800"><span className="font-bold">Donor Email:</span> {donationData.DonerEmail}</p>
           <p className="text-lg text-gray-800"><span className="font-bold">Status:</span> {donationData.Status}</p>
         </div>
-      )}
+      )}    
     </div>
   )
 }
