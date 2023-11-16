@@ -145,7 +145,7 @@ const NGORegistrationPage = () => {
                 htmlFor="FirstApproverName"
                 className="block text-lg font-semibold text-gray-800"
             >
-                Approver&apos;s Name
+                First Approver&apos;s Name
             </label>
             <input
               type="text"
@@ -173,7 +173,7 @@ const NGORegistrationPage = () => {
                 htmlFor="SecondApproverName"
                 className="block text-lg font-semibold text-gray-800"
             >
-                Approver&apos;s Name
+                Second Approver&apos;s Name
             </label>
             <input
               type="text"
