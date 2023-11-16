@@ -37,8 +37,8 @@ const formatTimestamp = (unixTimestamp: string | number | Date) => {
 const DonationAllocationPage = () => {
   const [donations, setDonations] = useState<Donation[]>([]);
   const [receivers, setReceivers] = useState<Receiver[]>([]);
-  const [selectedDonation, setSelectedDonation] = useState<Donation>();
-  const [selectedReceiver, setSelectedReceiver] = useState<Receiver>();
+  const [selectedDonation, setSelectedDonation] = useState<Donation | undefined>(undefined);
+  const [selectedReceiver, setSelectedReceiver] = useState<Receiver | undefined>(undefined);
   const [allocationAmount, setAllocationAmount] = useState('');
   const [firstApproverName, setFirstApproverName] = useState('');
   const [firstApproverAddress, setFirstApproverAddress] = useState('');
@@ -137,6 +137,13 @@ const DonationAllocationPage = () => {
           .catch((error) => {
             alert(`Error: ${error}`);
           });
+          setSelectedDonation(undefined);
+          setSelectedReceiver(undefined);
+          setAllocationAmount('');
+          setFirstApproverName('');
+          setFirstApproverAddress('');
+          setSecondApproverName('');
+          setSecondApproverAddress('');      
       } else {
         alert('Allocation amount exceeds the remaining donation amount');
       }
