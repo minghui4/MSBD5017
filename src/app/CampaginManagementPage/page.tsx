@@ -57,6 +57,8 @@ const CampaginManagementPage = () => {
 
       // Pass the field values to your Smart Contract function here
       // smartContractMethod(ngoName, ngoAddress);
+      // function startCampaign(address manager, string calldata eventName, string calldata description, uint256 deadline, uint256 targetFundsRaised) external {
+      
       const MainContract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
       const tx = await MainContract.startCampaign(ManagerAddress,EventName,Description,Deadline,TargetFundsRaised)
       // wait for the transaction to be mined

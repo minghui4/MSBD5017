@@ -1,14 +1,17 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { orderByChild, ref, get, set, query, equalTo } from 'firebase/database';
 import { database } from "../firebaseConfig";
 import { useRouter } from 'next/navigation';
-
+import abi from "../../abi.json";
+import { ethers } from "ethers";
+import { CONTRACT_ADDRESS } from "../../config";
 
 interface Donation {
   Txn: string;
   Amount: number;
   CampaignAddress: string;
+  CampaignId: string;
   Currency: string;
   DonerEmail: string;
   DonerName: string;
@@ -20,6 +23,8 @@ interface Donation {
   FirstApproverAddress: string;
   SecondApproverName: string;
   SecondApproverAddress: string;
+  NgoName: string;
+  NGODeadline: number;
 }
 
 interface Receiver {
@@ -44,7 +49,16 @@ const DonationAllocationPage = () => {
   const [firstApproverAddress, setFirstApproverAddress] = useState('');
   const [secondApproverName, setSecondApproverName] = useState('');
   const [secondApproverAddress, setSecondApproverAddress] = useState('');
+  const [ManagerName, setManagerName] = useState('');
+  const [ManagerAddress, setManagerddress] = useState('');
   const router = useRouter(); 
+  
+  const signer = useMemo(() => {
+    if (!ManagerAddress) return null;
+    return new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    ).getSigner();
+  }, [ManagerAddress]);
 
   const fetchData = async () => {
     try {
@@ -68,13 +82,7 @@ const DonationAllocationPage = () => {
           // console.log('Existing item', existingItem)
           if (existingItem) {
               // If item with this 'Txn' already exists, only replace if current item is newer
-              console.log('Timestamp of current item', new Date(item['Timestamp']).getTime())
-              console.log('Timestamp of existing item', new Date(existingItem['Timestamp']).getTime())
               if (new Date(item['Timestamp']).getTime() > new Date(existingItem['Timestamp']).getTime()) {
-                  // Replace the existing item with the current item
-                  console.log('I am Here!!!!')
-                  console.log('Replacing existing item with current item', item)
-                  console.log('Existing item', existingItem)
                   const index = uniqueArray.indexOf(existingItem);
                   uniqueArray[index] = item;
               }
@@ -113,6 +121,7 @@ const DonationAllocationPage = () => {
   }, []);
 
   const handleAllocate = async () => {
+    if (!signer) return;
     if (selectedDonation && selectedReceiver && allocationAmount) {
       const donationAmount = Number(selectedDonation.Amount);
       const allocatedAmount = Number(selectedDonation.allocatedAmount) || 0;
@@ -122,6 +131,26 @@ const DonationAllocationPage = () => {
         const selectedDonationRef = ref(database, `donations/${selectedDonation.Txn}`);
         const newAllocatedAmount = allocatedAmount + newAllocationAmount;
   
+        // function requestCurrencyAllocation(string memory ngoName ,uint256 amount, string memory receiverName, string memory STXID, bytes32 campaignId) external {
+
+        const MainContract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+        console.log("MainContract: ", MainContract);
+        console.log("selectedDonation: ", selectedDonation);
+        console.log("NGO Name: ", selectedDonation.NgoName);
+        console.log("Amount: ", newAllocatedAmount);
+        console.log("Receiver Name: ", selectedReceiver.ReceiverName);
+        console.log("Txn: ", selectedDonation.Txn);
+        console.log("Campaign ID in Bytes32: ", selectedDonation.CampaignId);
+        console.log("First Approver Name: ", firstApproverName);
+        console.log("First Approver Address: ", firstApproverAddress);
+        console.log("Second Approver Name: ", secondApproverName);
+        console.log("Second Approver Address: ", secondApproverAddress);
+        console.log("STXID: ", selectedDonation.Txn);
+
+        const tx = await MainContract.requestCurrencyAllocation(selectedDonation.NgoName, newAllocatedAmount, selectedReceiver.ReceiverName, selectedDonation.Txn, selectedDonation.CampaignId);
+        // wait for the transaction to be mined
+        await tx.wait();
+
         await set(selectedDonationRef, {
           ...(selectedDonation as object),
           allocatedTo: selectedReceiver,
@@ -143,7 +172,9 @@ const DonationAllocationPage = () => {
           setFirstApproverName('');
           setFirstApproverAddress('');
           setSecondApproverName('');
-          setSecondApproverAddress('');      
+          setSecondApproverAddress('');  
+          setManagerName('');
+          setManagerddress('');    
       } else {
         alert('Allocation amount exceeds the remaining donation amount');
       }
@@ -235,6 +266,14 @@ const DonationAllocationPage = () => {
                   <td className="text-lg text-gray-700 font-semibold">Allocated To:</td>
                   <td className="text-lg text-gray-800">{selectedDonation.allocatedTo?.ReceiverName}</td>
                 </tr>
+                <tr>
+                  <td className="text-lg text-gray-700 font-semibold">Timestamp:</td>
+                  <td className="text-lg text-gray-800">{selectedDonation.Timestamp}</td>
+                </tr>
+                <tr>
+                  <td className="text-lg text-gray-700 font-semibold">Campaign Expiry Date:</td>
+                  <td className="text-lg text-gray-800">{selectedDonation.NGODeadline}</td>
+                </tr>
               </tbody>
             </table>
           
@@ -264,6 +303,29 @@ const DonationAllocationPage = () => {
                   className="form-input mt-1 block w-full px-4 py-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50" 
                   value={allocationAmount} 
                   onChange={(e) => setAllocationAmount(e.target.value)} 
+                />
+              </label>
+
+              {/* Input fields for Manager */}
+              <label htmlFor="ManagerName" className="block text-lg mb-2">
+                <span className="text-gray-700">Mangaer Name:</span>
+                <input
+                  type="text"
+                  id="ManagerName"
+                  className="form-input mt-1 block w-full px-4 py-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
+                  value={ManagerName}
+                  onChange={(e) => setManagerName(e.target.value)}
+                />
+              </label>
+
+              <label htmlFor="ManagerAddress" className="block text-lg mb-2">
+                <span className="text-gray-700">Manager Address:</span>
+                <input
+                  type="text"
+                  id="ManagerAddress"
+                className="form-input mt-1 block w-full px-4 py-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50"
+                  value={ManagerAddress}
+                  onChange={(e) => setManagerddress(e.target.value)}
                 />
               </label>
 

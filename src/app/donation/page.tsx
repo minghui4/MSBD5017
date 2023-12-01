@@ -1,8 +1,12 @@
 'use client';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { checkout } from "./api/checkout";
 import { get, ref } from "firebase/database";
 import { database } from "../firebaseConfig";
+import { CONTRACT_ADDRESS } from "../../config";
+import abi from "../../abi.json";
+import { ethers } from "ethers";
+
 
 interface NGO {
     ManagerAddress: string;
@@ -21,12 +25,21 @@ interface Campaign {
 interface CombinedData extends Campaign {
     NGOName?: string;
     DeadlineDate: string;
+    // DonorAddress: string;
 }
 
 const DonationPage = () => {
   const [customAmount, setCustomAmount] = useState('');
   const [campaignsArray, setCampaignsArray] = useState<CombinedData[]>([]);
   const [selectedCampaign, setSelectedCampaign] = useState<CombinedData | null>(null);
+  const [DonorAddress, setDonorAddress] = useState<string>();
+
+  const signer = useMemo(() => {
+    if (!DonorAddress) return null;
+    return new ethers.providers.Web3Provider(
+      (window as any).ethereum
+    ).getSigner();
+  }, [DonorAddress]);
 
   useEffect(() => {
     const campaignsRef = ref(database, 'Campaigns');
@@ -42,15 +55,15 @@ const DonationPage = () => {
 
             campaignsData = campaignsData.map((campaign: Campaign) => {
               const ngoData = ngosData.find((ngo: NGO) => ngo.ManagerAddress === campaign.ManagerAddress);
-              const deadlineDate = new Date(campaign.Deadline * 1000).toLocaleDateString();
-    
+              const deadlineDate = new Date(campaign.Deadline * 1000).toLocaleDateString();    
+
               return {
                 ...campaign,
                 NGOName: ngoData ? ngoData.NGOName : undefined,
-                DeadlineDate: deadlineDate
+                DeadlineDate: deadlineDate,
+                DonorAddress: DonorAddress,
               } as CombinedData;
             });
-      
             setCampaignsArray(campaignsData as CombinedData[]);
           } else {
             console.log("No NGOs data available");
@@ -76,8 +89,12 @@ const DonationPage = () => {
             quantity: amount / 1 // Assuming price_1OCZCQAiHbmBADrrscWCBmdH is $1
           }
         ],
-        Campaign: 123 // pass the selectedCampaign details
+        Campaign: selectedCampaign.EventName, // pass the selectedCampaign details
+        DonorAddress: DonorAddress || '',
+        NGOName: selectedCampaign.NGOName || '',
+        NGODeadline: selectedCampaign.DeadlineDate || '',
       });
+
     } else {
       // handle case when no campaign is selected
       console.log('Please select a campaign before donating');
@@ -89,18 +106,28 @@ const DonationPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full p-10 bg-white rounded-md shadow-xl lg:max-w-2xl">
         <h1 className="text-4xl font-semibold text-gray-900 mb-6 text-center">Donate to an NGO</h1>
-        
+        <label htmlFor="donorAddress" className="block text-lg mb-2">
+            <span className="text-gray-700">Your Address:</span>
+            <input 
+              id="donorAddress" 
+              type="text"
+              className="form-input mt-1 block w-full px-4 py-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50" 
+              placeholder="Enter your address"
+              value={DonorAddress || ''} 
+              onChange={(e) => setDonorAddress(e.target.value)}
+            />
+        </label>
         <label htmlFor="campaign" className="block text-lg mb-2">
             <span className="text-gray-700">Choose a Campaign:</span>
-                <select 
-                id="campaign" 
-                className="form-select mt-1 block w-full px-4 py-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50" 
-                onChange={(e) => setSelectedCampaign(campaignsArray.find(campaign => campaign.EventName === e.target.value) || null)}
-                >
-                <option value="" disabled selected>Please select Campaign</option>
-                {campaignsArray.map((campaign, index) => (
-                    <option key={index} value={campaign.EventName}>{campaign.EventName}</option>
-                ))}
+            <select 
+              id="campaign" 
+              className="form-select mt-1 block w-full px-4 py-2 text-gray-700 bg-gray-200 border-2 border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none focus:ring focus:ring-opacity-50" 
+              onChange={(e) => setSelectedCampaign(campaignsArray.find(campaign => campaign.EventName === e.target.value) || null)}
+              >
+              <option value="" disabled selected>Please select Campaign</option>
+              {campaignsArray.map((campaign, index) => (
+                  <option key={index} value={campaign.EventName}>{campaign.EventName}</option>
+              ))}
             </select>
         </label>
 
@@ -113,7 +140,7 @@ const DonationPage = () => {
             <p className="text-lg text-gray-800"><strong>Target Funds Raised:</strong> {selectedCampaign.TargetFundsRaised}</p>
           </div>
         )}
-  
+
         <p className="text-lg text-gray-500 text-center mb-4">Choose the amount you want to donate:</p>
         
         <div className="grid grid-cols-3 gap-6 mb-4">
