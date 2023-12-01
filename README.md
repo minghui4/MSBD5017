@@ -18,11 +18,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser connected 
 
 Or you can directly check (https://msbd-5017.vercel.app/) which connected to this github repository. 
 
-## Function with demonstration:
+## Function for demonstration:
 
-**- Landing Page (Containing list of Functions for demo) - https://msbd-5017.vercel.app/landing**
+### 1. Landing Page (Containing list of Functions for demo) - https://msbd-5017.vercel.app/landing
 
-**- Registration of NGO - https://msbd-5017.vercel.app/NGORegistration**
+### 2. Registration of NGO - https://msbd-5017.vercel.app/NGORegistration
   - This page is for registation of NGO. Below is the testing data for your reference.
   - You may use ETH address generator (e,g.: https://vanity-eth.tk/) to generate new address for testing.
   
@@ -37,8 +37,9 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
     | Second Approver's Name    	| approver2                                  	|
     | Second Approver's Address 	| 0x1E8783a1fBB9848fd2B16dB15C34CCDE3D355a81 	|
 
-<br><br>
-**- Registration of Donor - https://msbd-5017.vercel.app/DonerRegistration**
+<br>
+
+### 3. Registration of Donor - https://msbd-5017.vercel.app/DonerRegistration 
   - This page is for registation of Donor. Below is the testing data for your reference.
   - You may use ETH address generator (e,g.: https://vanity-eth.tk/) to generate new address for testing.
     
@@ -47,8 +48,9 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
     | Donor's Name              	| Donor1                                     	|
     | Donor's Address           	| 0x11409114A3CDbe71082bCf898850Fe0B0AFba181 	|
 
-<br><br>
-**- Registration of Receiver - https://msbd-5017.vercel.app/ReceiverRegistration**
+<br>
+
+### 4. Registration of Receiver - https://msbd-5017.vercel.app/ReceiverRegistration
   - This page is for registation of Receiver. Below is the testing data for your reference.
   - You may use ETH address generator (e,g.: https://vanity-eth.tk/) to generate new address for testing.
 
@@ -57,8 +59,9 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
     | Receiver's Name           	| Receiver1                                  	|
     | Receiver's Address        	| 0x1118847900203Aab5d0E364d7F13aD5651fAd8E1 	|
 
-<br><br>
-**- Registration of Buyer (Buyer for buying donation with other digital asset) - https://msbd-5017.vercel.app/BuyerRegistration**
+<br>
+
+### 5. Registration of Buyer (Buyer for buying donation with other digital asset) - https://msbd-5017.vercel.app/BuyerRegistration
   - This page is for registation of Buyer. Below is the testing data for your reference.
   - You may use ETH address generator (e,g.: https://vanity-eth.tk/) to generate new address for testing.
 
@@ -67,8 +70,9 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
     | Buyer's Name              	| Buyer1                                     	|
     | Buyer's Address           	| 0x1110BaDBdD57D45038a7ba8D6c3EE23e7cAE7Bf1 	|
 
-<br><br>
-**- Check Manager Page before Campaign Management - https://msbd-5017.vercel.app/CheckManagerPage**
+<br>
+
+### 6. Check Manager Page before Campaign Management - https://msbd-5017.vercel.app/CheckManagerPage
   - This page checks if you're a manager first.  Below is the testing data for your reference.
 
     | **Field**                 	| **Value**                                  	|
@@ -76,8 +80,9 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
     | Your Name              	 	 	| manager1                                   	|
     | Your Address           	 	 	| 0x2741cA6cdf158e127E84EE6fABBAED0b3356293a 	|
 
-<br><br>
-**- Manage Campaign - https://msbd-5017.vercel.app/CampaginManagementPage**
+<br>
+
+### 7. Manage Campaign - https://msbd-5017.vercel.app/CampaginManagementPage
   - This page is for manager to manage the campaign.  Below is the testing data for your reference.
 
     | **Field**                 	| **Value**                                  	|
@@ -88,8 +93,9 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
     | Event Deadline            	| 06/01/2025                                 	|
     | Target Fund Raising       	| 100000                                     	|
 
-<br><br>
-**- Donation (only cover for domation of digital currency with HKD) - https://msbd-5017.vercel.app/donation**
+<br>
+
+### 8. Donation (only cover for domation of digital currency with HKD) - https://msbd-5017.vercel.app/donation
   - This page is for donation of money.  Below is the testing data for your reference.
 
     | **Field**                            	| **Value**                                  	|
@@ -110,17 +116,18 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
     | CVS                       	| 111                                        	|
     | Card Holder Name          	| ABC                                        	|
 
-<br><br>
-**- Donation Tracking - https://msbd-5017.vercel.app/TraceDonation**
+<br>
+
+### 9. Donation Tracking - https://msbd-5017.vercel.app/TraceDonation
   - This page is for tracking of donated money.  Below is the testing data for your reference.
 
     | **Field**                 	| **Value**                                  	|
     |---------------------------	|--------------------------------------------	|
     | Transaction ID            	| ch_3OIRQ4AiHbmBADrr1FVJOFy0                	|
 
-<br><br>
+<br>
 
-**- Donation Allocation -  https://msbd-5017.vercel.app/Allocation**
+### 10. Donation Allocation -  https://msbd-5017.vercel.app/Allocation
   - This page is for tracking of donated money.  Below is the testing data for your reference.
 
     | **Field**               	  | **Value**                                  	|
