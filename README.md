@@ -94,7 +94,6 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
 
     | **Field**                            	| **Value**                                  	|
     |--------------------------------------	|--------------------------------------------	|
-    | Manager' Address                     	| 0x2741cA6cdf158e127E84EE6fABBAED0b3356293a 	|
     | Your Address                         	| 0x2741cA6cdf158e127E84EE6fABBAED0b3356293a 	|
     | Choose a Campaign                    	| Event_Test1                                	|
     | Choose the amount you want to donate 	| Donate $50                                 	|
