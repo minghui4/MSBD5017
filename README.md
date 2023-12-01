@@ -20,7 +20,7 @@ Or you can directly check (https://msbd-5017.vercel.app/) which connected to thi
 
 ## Function for demonstration:
 
-### 1. Landing Page (Containing list of Functions for demo) - https://msbd-5017.vercel.app/landing
+### 1. Landing Page (Contains list of Functions for demo) - https://msbd-5017.vercel.app/landing
 
 ### 2. Registration of NGO - https://msbd-5017.vercel.app/NGORegistration
   - This page is for registation of NGO. Below is the testing data for your reference.
